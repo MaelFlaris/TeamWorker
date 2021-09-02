@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mini projet Equipe de personnes</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="script.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"/>
+
+		<style>
+			.divListUser,
+			.divUser {
+				background-color: #ccc;
+				padding: 20px;
+			}
+			.divListUser {
+				margin-top: 20px;
+			}
+
+			.divTeam {
+				background-color: #ccc;
+				padding: 20px;
+			}
+			#tabListUser td {
+				height: 45px;
+				width: 120px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-8">
+					<div class="divTeam">
+						{{form_start(FormEquipe, {'action': path('ajout_equipe'), 'method':'POST'})}}
+
+						{{form_widget(FormEquipe)}}
+						<button type="submit">Ajouter</button>
+						{{form_end(FormEquipe)}}
+					</div>
+					<div id="demo">
+						<table class="table">
+							<thead>
+								<tr class="table-primary">
+									<th scop="col">Equipe</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for equipe in equipes %}
+									<tr class="table-secondary">
+										<td>
+											<strong>{{equipe.nom}}</strong>
+										</td>
+										<td></td>
+										<td>
+											<a class="btn btn-danger" href="{{path('equipe_enlever',{equipe : equipe.id})}}">
+												<i class="fas fa-trash"></i>
+											</a>
+										</td>
+										{% for personne in equipe.personne %}
+											<tr class="table-light">
+												<td class="col">==>{{personne.nom}}
+													{{personne.prenom}}
+												</td>
+												<td></td>
+												<td>
+													<a class="btn btn-danger">
+														<i class="fas fa-trash"></i>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="divUser">
+						{{ form_start(Formpersonne, {'action': path('ajout_personne'), 'method':'POST'}) }}
+						{{ form_widget(Formpersonne) }}
+						<button type="submit">Ajouter</button>
+						{{ form_end(Formpersonne) }}
+					</div>
+					<!-- divUser -->
+
+
+					<div class="divListUser container">
+
+						<table id="tabListUser">
+							{% for personne in personnes %}
+								<tr class="justify-content-between">
+									<td class="col">{{personne.nom}}
+										{{personne.prenom}}</td>
+									<td class="col">
+										<a class="btn btn-danger" href='{{path('personne_enlever',{personne : personne.id})}}'>
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+
+				</div>
+				<!-- col4 -->
+			</div>
+			<!-- row -->
+
+		</div>
+		<!-- container -->
+
+	</body>
+</html>
